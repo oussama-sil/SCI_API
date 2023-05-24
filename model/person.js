@@ -13,6 +13,18 @@ function removePersonDB(personID){
 }
 
 
+function getPersonUsername(username){
+    return new Promise(async (resolve,reject)=>{
+        sql.query(`SELECT * FROM Person WHERE username = ${username}`,(err,res)=>{
+            if(err){
+                return reject(err);
+            }
+            return resolve(res);
+        }
+    )});
+}
+
+
 
 function getMaxPersonID(){
     return new Promise(async (resolve,reject)=>{
@@ -62,10 +74,10 @@ function getPersonDB(personID){
 }
 
 
-function insertPersonDB(personID,firstname,lastname,badgeID,username,passwd,isAdmin){
+function insertPersonDB(personID,firstname,lastname,email,badgeID,username,passwd,isAdmin){
     //* Add hashing passwords
     return new Promise (async (resolve,reject)=>{
-        sql.query(`INSERT INTO Person (personID,firstname,lastname,badgeID,username,passwd,isAdmin) VALUES (${personID},"${firstname}","${lastname}","${badgeID}","${username}","${passwd}",${isAdmin});`,(err,res)=>{
+        sql.query(`INSERT INTO Person (personID,firstname,lastname,email,badgeID,username,passwd,isAdmin) VALUES (${personID},"${firstname}","${lastname}","${email}","${badgeID}","${username}","${passwd}",${isAdmin});`,(err,res)=>{
             if(err){
                 return reject(err);
             }
@@ -148,4 +160,4 @@ async function test(){
 
 // test();
 
-module.exports = {getNbPersonsDB,getPersonsDB,getPersonDB,insertPersonDB,getPersonUsername,getMaxPersonID,removePersonDB};
+module.exports = {getPersonUsername,getNbPersonsDB,getPersonsDB,getPersonDB,insertPersonDB,getPersonUsername,getMaxPersonID,removePersonDB};

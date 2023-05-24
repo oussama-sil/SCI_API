@@ -1,6 +1,17 @@
 const sql  = require('./database_connection');
 
 
+function delEventDB(eventID){
+    return new Promise(async (resolve,reject)=>{
+        sql.query(`DELETE FROM Event WHERE eventID=${eventID}`,(err,res)=>{
+            if(err){
+                return reject(err);
+            }
+            return resolve(res);
+        }
+    )});
+}
+
 
 function getNbEventsDB(){
     return new Promise(async (resolve,reject)=>{
@@ -16,7 +27,7 @@ function getNbEventsDB(){
 
 function getEventsDB(){
     return new Promise(async (resolve,reject)=>{
-        sql.query(`SELECT eventID,TIME(dateEvent) as time ,DATE_FORMAT(dateEvent, '%Y-%m-%d')as date,mailboxID,eventType,nbMails,personID from Event;`,(err,res)=>{
+        sql.query(`SELECT eventID,TIME(dateEvent) as time ,DATE_FORMAT(dateEvent, '%Y-%m-%d')as date,mailboxID,eventType,nbMails,personID from Event ORDER BY dateEvent Desc;`,(err,res)=>{
             if(err){
                 return reject(err);
             }
@@ -91,4 +102,4 @@ async function test(){
 
 // test();
 
-module.exports = {getNbEventsDB,getEventsDB,getEventDB,insertEventDB};
+module.exports = {getNbEventsDB,getEventsDB,getEventDB,insertEventDB,delEventDB};

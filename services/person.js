@@ -25,12 +25,12 @@ function removePerson(personID){
 }
 
 
-function insertPerson(firstname,lastname,badgeID,username,passwd,isAdmin){
+function insertPerson(firstname,lastname,email,badgeID,username,passwd,isAdmin){
     return new Promise(async (resolve,reject)=>{
         try{
             // console.log(mailboxName)
             let maxID = await getMaxPersonID();
-            let rsps = insertPersonDB(maxID[0].max+1,firstname,lastname,badgeID,username,passwd,isAdmin);
+            let rsps = insertPersonDB(maxID[0].max+1,firstname,lastname,email,badgeID,username,passwd,isAdmin);
             resps  = getPerson(maxID[0].max+1);
             resolve(resps);
         }catch(e){

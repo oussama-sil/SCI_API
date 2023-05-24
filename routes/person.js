@@ -29,7 +29,7 @@ router.get('/:personID',async (req,res)=>{
 })
 
 router.post('/',async (req,res)=>{
-    insertPerson(req.body.firstname,req.body.lastname,req.body.badgeID,req.body.username,req.body.passwd,req.body.isAdmin)
+    insertPerson(req.body.firstname,req.body.lastname,req.body.email,req.body.badgeID,req.body.username,req.body.passwd,req.body.isAdmin)
     .then(person =>{res.send(person)})
         .catch(err=>{res.status(400).json(err)})
 })

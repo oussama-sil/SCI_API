@@ -1,5 +1,5 @@
 const {getNbEventsDB,getEventsDB,getEventDB,insertEventDB} = require('../model/event');
-const {getMailBoxesDB,getNbMailBoxesDB,getMailBoxeDB,insertMailBoxDB,updateNbMailsMailBoxDB,updateStatusMailBoxDB}
+const {updateMailBoxLastUpdateDB,getMailBoxesDB,getNbMailBoxesDB,getMailBoxeDB,insertMailBoxDB,updateNbMailsMailBoxDB,updateStatusMailBoxDB}
     = require('../model/mailBox')
 const  {getNbPersonsDB,getPersonsDB,getPersonDB,insertPersonDB} = require('../model/person');
 const {insertAssignDB,getAssignMailboxDB,getAssignPersonDB,deleteAssignDB} =require('../model/assign');
@@ -13,7 +13,7 @@ function getEvents(){
             let events = await getEventsDB();
             // console.log(events)
             let nbEvents  = await getNbEventsDB();
-            console.log(events);
+            // console.log(events);
             events = events.map(event => {
                 return { ...event, id:event.eventID, time:event.time,date:event.date }
             })
@@ -89,7 +89,7 @@ function createEvent(mailboxID,eventType,nbMails){
             let rsp = await insertEventDB(nbEvents[0]['nb']+1,mailboxID,eventType,nbMails,personID) ;
             //! UPDATE THE STATE OF THE MAILBOX
             rsp = await updateNbMailsMailBoxDB(mailboxID,nbMails) ;
-            
+            rsp = await updateMailBoxLastUpdateDB(mailboxID);
             resolve(rsp);
         }catch(e){
             reject(e);

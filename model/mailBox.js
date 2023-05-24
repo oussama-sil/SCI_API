@@ -2,6 +2,8 @@ const sql  = require('./database_connection');
 
 
 
+
+
 function getNbMailBoxesDB(){
     return new Promise(async (resolve,reject)=>{
         sql.query(`SELECT count(*) as nb FROM MailBox`,(err,res)=>{
@@ -98,6 +100,16 @@ function deleteMailBoxDB(mailboxID){
 }
 
 
+function updateMailBoxLastUpdateDB(mailboxID){
+    return new Promise(async (resolve,reject)=>{
+        sql.query(`UPDATE MailBox SET lastUpdate=CURRENT_TIMESTAMP() WHERE mailboxID = ${mailboxID}`,(err,res)=>{
+            if(err){
+                return reject(err);
+            }
+            return resolve(res);
+        }
+    )});
+}
 
 
 //? Simple test function
@@ -135,4 +147,4 @@ async function test(){
 
 // test();
 
-module.exports = {deleteMailBoxDB,getMaxMailBoxID,getMailBoxesDB,getNbMailBoxesDB,getMailBoxeDB,insertMailBoxDB,updateNbMailsMailBoxDB,updateStatusMailBoxDB};
+module.exports = {updateMailBoxLastUpdateDB,deleteMailBoxDB,getMaxMailBoxID,getMailBoxesDB,getNbMailBoxesDB,getMailBoxeDB,insertMailBoxDB,updateNbMailsMailBoxDB,updateStatusMailBoxDB};

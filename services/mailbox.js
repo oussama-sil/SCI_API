@@ -61,20 +61,23 @@ function getMailBox(mailBoxID){
                 let assign = await getAssignMailboxDB(mailBoxID);
                 if(assign.length>0){
                     let owner  = await getPersonDB(assign[0]["personID"]);
-                    console.log(owner)
+                    // console.log(owner)
                     mailbox["Affected"] = true
                     if(owner.length>0 ){
                         mailbox["Owner"] = owner[0]["firstname"]+ "  " +owner[0]["lastname"]
                         mailbox["personID"] = owner[0]["personID"]
+                        mailbox["email"] = owner[0]["email"]
                     }else{
                         mailbox["Owner"] = " "
                         mailbox["personID"] =" "
+                        mailbox["email"] = ""
                     }
 
                 }else{
                     mailbox["Affected"] = false
                     mailbox["Owner"] = " "
                     mailbox["personID"] =" "
+                    mailbox["email"] = ""
                 }
                 resolve({id:mailbox.mailboxID,...mailbox,"isFree": mailbox.isFree==1})
             }else{
@@ -93,11 +96,11 @@ function affectMailBox(mailboxID,newStatus,ownerID){
         try{
             // getting mailbox object 
             // Get old mailbox 
-            console.log(mailboxID,newStatus,ownerID)
+            // console.log(mailboxID,newStatus,ownerID)
             let oldMailBox = await getMailBoxeDB(mailboxID);
             if(newStatus == false){ //* Case affected to a new user 
                 
-                console.log(parseInt(mailboxID),newStatus,ownerID)
+                // console.log(parseInt(mailboxID),newStatus,ownerID)
                 //* Drop old user 
                 let rsp = await deleteAssignDB(parseInt(mailboxID))
                 if(ownerID != -1){

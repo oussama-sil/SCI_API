@@ -2,6 +2,8 @@ const express = require('express');
 
 const {getNbEventsDB,getEventsDB,getEventDB,insertEventDB} = require('../model/event');
 const {createEvent,getEvent,getEvents} = require('../services/event');
+const {delEventDB} = require("../model/event");
+
 
 const router = express.Router();
 
@@ -26,8 +28,14 @@ router.get('/:eventID',async (req,res)=>{
 
 router.get('/:mailboxID/:eventType/:nbMails',async (req,res)=>{
     createEvent(req.params.mailboxID,req.params.eventType,req.params.nbMails,req.params.personID)
-        .then(result =>{res.send(result)})
+        .then(result =>{res.send("ok")})
         .catch(err=>{res.status(400).json(err)})
+})
+
+router.delete('/:eventID',async(req,res)=>{
+    delEventDB(req.params.eventID)
+    .then(event =>{res.send(event)})
+    .catch(err=>{res.status(400).json(err)})
 })
 
 
